@@ -1,0 +1,11 @@
+[run]
+omit =
+    *test*
+    */venv/*
+branch = True
+
+[report]
+fail_under = 80
+
+[html]
+directory = coverage
