@@ -29,7 +29,7 @@ Open terminal and install the necessary packages by running:
 pip install -r requirements.txt
 ```
 
-Then start the application by running from the root directory **main.py**. for example:
+Then start the application by running from the root directory **main.py**.
 The script accepts the following arguments:
 - **--author**, **-a**: the author, and
 - **--length**, **-l**: the total number of words to be generated
