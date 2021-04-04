@@ -53,6 +53,6 @@ The latter command create the coverage file **coverage/index.html**, which can b
 This application retrieve a corpus and then generate a [**Markov chain**](https://en.wikipedia.org/wiki/Markov_chain) 
 which establishes a relationships between words.
 
-The algorithm is simple and naive: it considers as word any substring between spaces, provided that only letters, apostrophes  
-and hyphen are kept. 
+The algorithm is simple and naive: it considers as word any substring between spaces, provided that only letters, 
+apostrophes and hyphen are kept. 
 Further improvement may be added in the future.
