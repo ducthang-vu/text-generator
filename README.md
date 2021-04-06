@@ -47,7 +47,7 @@ For running unit tests, do:
     coverage report
     coverage html
 ```
-The latter command create the coverage file **coverage/index.html**, which can be open with a browser.
+The latter command creates the coverage file **coverage/index.html**, which can be opened with a browser.
 
 ## Implementation notes ##
 This application retrieve a corpus and then generate a [**Markov chain**](https://en.wikipedia.org/wiki/Markov_chain) 
