@@ -21,14 +21,15 @@ class MarkovChain:
         """
 
         self._states = {}
+        self._set_states(words)
+
+    def _set_states(self, words: list[str]) -> None:
         for index, word in enumerate(words):
+            if word not in self._states:
+                self._states[word] = State(word)
             if index != 0:
                 prev = words[index - 1]
                 self._states[prev].add_linked_state(word)
-                if word not in self._states:
-                    self._states[word] = State(word)
-            else:
-                self._states[word] = State(word)
 
     def _pick_random_state(self) -> State:
         """
