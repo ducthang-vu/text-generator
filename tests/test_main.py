@@ -11,7 +11,7 @@ class MainTestCase(unittest.TestCase):
     @patch.object(TextGenerator, 'get_new_text')
     @patch('builtins.print')
     def test_generate_text(self, mock_print, mock_text_generator):
-        generate_text('lady_gaga', 100)
+        generate_text('lady_gaga', 100, 1)
         self.assertEqual(mock_print.called, True)
 
     @patch('main.generate_text')
@@ -20,7 +20,7 @@ class MainTestCase(unittest.TestCase):
         with patch.object(sys, 'argv', arg):
             main()
             self.assertEqual(mock.called, True)
-            mock.assert_called_with('katy_perry', 100)
+            mock.assert_called_with('katy_perry', 100, 1)
 
     @patch('sys.stderr', new_callable=StringIO)
     def test_main_missing_cli_arguments(self, mock):

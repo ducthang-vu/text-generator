@@ -2,6 +2,8 @@ from textgenerator.markov_chain import MarkovChain
 from pathlib import Path
 from re import sub
 
+from textgenerator.state import State
+
 
 class TextGenerator:
     """
@@ -26,7 +28,7 @@ class TextGenerator:
         'saint_paul': 'corpus/saint_paul'
     }
 
-    def __init__(self, author: str):
+    def __init__(self, author: str, words_per_state=1):
         """
         :param author: The author name, must be a key of author_path class attribute
         """
@@ -36,7 +38,7 @@ class TextGenerator:
         for file in corpus:
             with open(file) as f:
                 text += ' ' + sub(r'[^a-zA-Z \'\n-]', '', f.read()).lower()
-        self._chain = MarkovChain(text.split())
+        self._chain = MarkovChain(text.split(), words_per_state)
 
     def get_new_text(self, text_len=100) -> str:
         """ gets a randomly generated text, with the number of words passed as argument.
@@ -45,5 +47,6 @@ class TextGenerator:
         :return: the randomly generated text
         """
 
-        generated = self._chain.get_sequence(text_len)
-        return ' '.join(list(map(str, generated)))
+        sequence: [State] = self._chain.get_sequence(text_len)
+        generated: [str] = [str(sequence[0])] + [str(state).split()[-1] for state in sequence[1:]]
+        return ' '.join(generated)

@@ -8,11 +8,11 @@ from textgenerator.text_generator import TextGenerator
 
 class StateTestCase(unittest.TestCase):
     @patch.object(Path, 'glob')
-    @patch('builtins.open', new_callable=mock_open, read_data='a1 (a2, a3\nb1 {b2 )b3')
+    @patch('builtins.open', new_callable=mock_open, read_data='a1 (a2, a3\nb1 {b2 )b3 c\n d')
     def test_constructor(self, mock, path_mock):
         path_mock.return_value = ['abc', 'def']
         text_generator = TextGenerator('lady_gaga')
-        self.assertEqual(set(text_generator._chain._states), {'a', 'b'})
+        self.assertEqual(set(text_generator._chain._states), {'a', 'b', 'c', 'd'})
         self.assertEqual(type(text_generator._chain), MarkovChain)
 
     def test_constructor_raise_KeyError(self):

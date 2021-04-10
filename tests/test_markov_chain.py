@@ -7,7 +7,7 @@ class MarkovChainTestCase(unittest.TestCase):
         self.words = ['word1', 'word2', 'word3', 'word2', 'word3', 'word2', 'word4']
         self.chain = MarkovChain(self.words)
 
-    def test_constructor(self):
+    def test_constructor_with_default_params(self):
         with self.subTest(mgs='test that single words are stored by chain'):
             self.assertEqual(len(self.chain._states), 4)
             self.assertEqual(set(self.chain._states.keys()), set(self.words))
@@ -24,7 +24,56 @@ class MarkovChainTestCase(unittest.TestCase):
         with self.subTest(mgs='test that word4 is followed by no words'):
             self.assertEqual(set(self.chain._states['word4']._linked_states), set())
 
-    def test_get_sequence(self):
+    def test_constructor_with_words_per_state(self):
+        with self.subTest(mgs='test with words_per_state == 2'):
+            chain = MarkovChain(self.words, 2)
+            self.assertEqual(set(chain._states.keys()), {'word1 word2', 'word2 word3', 'word3 word2',
+                                                         'word2 word4'})
+
+            self.assertEqual(set(chain._states['word1 word2']._linked_states), {'word2 word3'})
+            self.assertEqual(chain._states['word1 word2']._linked_states['word2 word3'], 1)
+
+            self.assertEqual(set(chain._states['word2 word3']._linked_states), {'word3 word2'})
+            self.assertEqual(chain._states['word2 word3']._linked_states['word3 word2'], 2)
+
+            self.assertEqual(set(chain._states['word3 word2']._linked_states), {'word2 word3', 'word2 word4'})
+            self.assertEqual(chain._states['word3 word2']._linked_states['word2 word3'], 1)
+            self.assertEqual(chain._states['word3 word2']._linked_states['word2 word4'], 1)
+
+            self.assertEqual(set(chain._states['word2 word4']._linked_states), set())
+
+        with self.subTest(mgs='test with words_per_state == 3'):
+            chain = MarkovChain(self.words, 3)
+            self.assertEqual(set(chain._states.keys()), {'word1 word2 word3', 'word2 word3 word2', 'word3 word2 word3',
+                                                         'word3 word2 word4'})
+
+            self.assertEqual(set(chain._states['word1 word2 word3']._linked_states), {'word2 word3 word2'})
+            self.assertEqual(chain._states['word1 word2 word3']._linked_states['word2 word3 word2'], 1)
+
+            self.assertEqual(set(chain._states['word2 word3 word2']._linked_states), {'word3 word2 word3',
+                                                                                      'word3 word2 word4'})
+            self.assertEqual(chain._states['word2 word3 word2']._linked_states['word3 word2 word3'], 1)
+            self.assertEqual(chain._states['word2 word3 word2']._linked_states['word3 word2 word4'], 1)
+
+            self.assertEqual(set(chain._states['word3 word2 word4']._linked_states), set())
+
+        with self.subTest(mgs='test with words_per_state == 4'):
+            chain = MarkovChain(self.words, 4)
+            self.assertEqual(set(chain._states.keys()), {'word1 word2 word3 word2', 'word2 word3 word2 word3',
+                                                         'word3 word2 word3 word2', 'word2 word3 word2 word4'})
+
+            self.assertEqual(set(chain._states['word1 word2 word3 word2']._linked_states), {'word2 word3 word2 word3'})
+            self.assertEqual(chain._states['word1 word2 word3 word2']._linked_states['word2 word3 word2 word3'], 1)
+
+            self.assertEqual(set(chain._states['word2 word3 word2 word3']._linked_states), {'word3 word2 word3 word2'})
+            self.assertEqual(chain._states['word2 word3 word2 word3']._linked_states['word3 word2 word3 word2'], 1)
+
+            self.assertEqual(set(chain._states['word3 word2 word3 word2']._linked_states), {'word2 word3 word2 word4'})
+            self.assertEqual(chain._states['word3 word2 word3 word2']._linked_states['word2 word3 word2 word4'], 1)
+
+            self.assertEqual(set(chain._states['word2 word3 word2 word4']._linked_states), set())
+
+    def test_get_sequence_1word_per_state(self):
         with self.subTest(mgs='should return a 100 string list'):
             text = self.chain.get_sequence()
             self.assertEqual(len(text), 100)
@@ -47,10 +96,24 @@ class MarkovChainTestCase(unittest.TestCase):
             chain = MarkovChain(words)
             sequence = chain.get_sequence(250)
             for index, state in enumerate(sequence[1:], 1):
+                word = str(state)
                 if word != '1' and str(sequence[index - 1]) != '7':
                     self.assertEqual(int(str(state)), int(str(sequence[index - 1])) + 1)
                 if word == '1':
                     self.assertEqual(str(sequence[index - 1]), '7')
+
+    def test_get_sequence_2_word_per_state(self):
+        words = ['1', '2', '3', '4', '5', '6', '7']
+        chain = MarkovChain(words, 2)
+        sequence = chain.get_sequence(250)
+        for index, state in enumerate(sequence[1:], 1):
+            val = str(state)
+            if val == '1 2':
+                self.assertEqual(str(sequence[index - 1]), '6 7')
+            if str(sequence[index - 1]) != '6 7':
+                last_of_current = int(str(state).split()[-1])
+                last_of_last = int(str(sequence[index - 1]).split()[-1])
+                self.assertEqual(last_of_current, last_of_last + 1)
 
 
 if __name__ == '__main__':

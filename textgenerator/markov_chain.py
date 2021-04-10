@@ -15,21 +15,27 @@ class MarkovChain:
        state is a valid and random Markov chain transition of the previous.
     """
 
-    def __init__(self, words: list[str]):
+    def __init__(self, words: list[str], words_per_state=1):
         """
         :param words: a list of strings representing a text from which generate the Markov chain
         """
 
+        self._words_per_state = words_per_state
         self._states = {}
         self._set_states(words)
 
     def _set_states(self, words: list[str]) -> None:
-        for index, word in enumerate(words):
-            if word not in self._states:
-                self._states[word] = State(word)
-            if index != 0:
-                prev = words[index - 1]
-                self._states[prev].add_linked_state(word)
+        """Set the _states attribute.
+
+        :param words:  a list of strings representing a text from which generate the Markov chain.
+        """
+        for i in range(len(words) - self._words_per_state + 1):
+            new_value = ' '.join(words[i: i + self._words_per_state])
+            if new_value not in self._states:
+                self._states[new_value] = State(new_value)
+            if i:
+                prev_value = ' '.join(words[i - 1: i + self._words_per_state - 1])
+                self._states[prev_value].add_linked_state(new_value)
 
     def _pick_random_state(self) -> State:
         """
