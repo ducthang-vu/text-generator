@@ -45,7 +45,7 @@ class MarkovChain:
         return choice(list(self._states.values()))
 
     def get_sequence(self, n=100) -> [State]:
-        """ returns a list of State objects from the chain represented by the object
+        """ Returns a list of State objects from the chain represented by the object
 
         The method picks a random state among the states of the chain and push it into the result list. Then gets the
         next value by calling the get_transition_value method, and adding the corresponding state to the result list.
