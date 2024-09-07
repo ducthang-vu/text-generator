@@ -15,10 +15,10 @@ class State:
         returns the word represented by the state
 
     add_linked_state(word: str) -> None
-        registers that a word, passed as argument, follows in the a text the word represented by the state.
+        registers that a word, passed as argument, follows in the text the word represented by the state.
 
     get_transition_value -> str
-        returns a word, a string, among those which follows in the a text the word represented by the state.
+        returns a word, a string, among those which follows in the text the word represented by the state.
     """
 
     def __init__(self, value: str):
@@ -37,7 +37,7 @@ class State:
         return self._value
 
     def add_linked_state(self, word: str) -> None:
-        """ Registers that a word, passed as argument, follows in the a text the word represented by the state.
+        """ Registers that a word, passed as argument, follows in the text the word represented by the state.
 
         The method update the object private attribute _linked_states, which is a dictionary with words already added as
         keys, and number of times each of them have been added as values.
@@ -51,7 +51,7 @@ class State:
         self._linked_states[word] += 1
 
     def get_transition_value(self) -> str:
-        """ Returns a word, a string, among those which follows in the a text the word represented by the state.
+        """ Returns a word, a string, among those which follows in the text the word represented by the state.
 
         The method picks randomly a word from the keys of the object private attribute _linked_states. The probability
         of each word being chosen is weighted according to the values of  _linked_states.
