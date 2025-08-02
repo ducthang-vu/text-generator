@@ -47,6 +47,6 @@ class TextGenerator:
         :return: the randomly generated text
         """
 
-        sequence: [State] = self._chain.get_sequence(text_len)
-        generated: [str] = [str(sequence[0])] + [str(state).split()[-1] for state in sequence[1:]]
+        sequence: list[State] = self._chain.get_sequence(text_len)
+        generated: list[str] = [str(sequence[0])] + [str(state).split()[-1] for state in sequence[1:]]
         return ' '.join(generated)
