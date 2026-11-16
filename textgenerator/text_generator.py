@@ -48,5 +48,5 @@ class TextGenerator:
         """
 
         sequence: list[State] = self._chain.get_sequence(text_len)
-        generated: list[str] = [str(sequence[0])] + [str(state).split()[-1] for state in sequence[1:]]
-        return ' '.join(generated)
+        generated: list[str] = str(sequence[0]).split() + [str(state).split()[-1] for state in sequence[1:]]
+        return ' '.join(generated[:text_len])
