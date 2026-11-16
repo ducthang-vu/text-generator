@@ -1,7 +1,7 @@
 # text-generator
 **text-generator** is a Python application which generates random texts from a corpus of texts from various authors. 
 The following authors are available:
-- [Kapy Perry](corpus/katy_perry): **20 songs**,
+- [Katy Perry](corpus/katy_perry): **20 songs**,
 - [Lady Gaga](corpus/lady_gaga): **30 songs**, and
 - [Saint Paul](corpus/saint_paul): **Letter to the Romans**.
 
