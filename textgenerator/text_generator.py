@@ -40,7 +40,7 @@ class TextGenerator:
                 text += ' ' + sub(r'[^a-zA-Z \'\n-]', '', f.read()).lower()
         self._chain = MarkovChain(text.split(), words_per_state)
 
-    def get_new_text(self, text_len=100) -> str:
+    def get_new_text(self, text_len: int = 100) -> str:
         """ gets a randomly generated text, with the number of words passed as argument.
 
         :param text_len: The total number of word for the returned text; default is 100.

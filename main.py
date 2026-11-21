@@ -32,7 +32,7 @@ def main() -> None:
                         help='An author', choices=list(TextGenerator.author_path), required=True)
     parser.add_argument('-l', '--length', metavar='Length', type=int,
                         help='The total number of words', required=True)
-    parser.add_argument('-w', '--wordsPerState', metavar='Length', type=int,
+    parser.add_argument('-w', '--WordsPerState', metavar='WordsPerState', type=int,
                         help='Number of words for every state (default: 1)', default=1)
     args = parser.parse_args()
     generate_text(args.author, args.length, args.wordsPerState)
