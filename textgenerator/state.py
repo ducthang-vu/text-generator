@@ -41,7 +41,7 @@ class State:
 
         The method update the object private attribute _linked_states, which is a dictionary with words already added as
         keys, and number of times each of them have been added as values.
-        If the argument is a new word, the method sets a new key with value 0; otherwise added 1 to the value for the
+        If the argument is a new word, the method sets a new key with value 1; otherwise added 1 to the value for the
         key.
 
         :param word: The word to be added
